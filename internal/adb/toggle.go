@@ -31,7 +31,7 @@ func SetStayAwake(deviceID string, enable bool) {
 	if err != nil {
 		fmt.Printf("⚠️ Failed to set stay_on_while_plugged_in to %s for device %s: %v\n", value, deviceID, err)
 	}
-	// Wake the screen and set brightness if enabling stay awake
+	// Wake the screen if enabling stay awake
 	if enable {
 		WakeScreen(deviceID)
 	}
