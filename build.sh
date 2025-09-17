@@ -21,3 +21,4 @@ fi
 echo "✅ Release build succeeded."
 echo ""
 echo "📦 Binary is in dist directory."
+echo ""

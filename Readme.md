@@ -44,13 +44,45 @@ brew install --cask android-platform-tools
 
 The binary will be created in the `dist` directory.
 
-### 2. Run the tool
+### 2. (Optional) Install globally
+
+To run the tool from anywhere, use the provided install script:
+
+```sh
+./install.sh
+```
+
+This will symlink the binary to `~/bin/adb-keep-screen-on`. If `~/bin` is not in your PATH, follow the instructions printed by the script to add it.
+
+### 3. Run the tool
 
 Ensure your Android device is connected and USB debugging is enabled.
+
+To run the built binary directly:
+
+```sh
+./dist/adb-keep-screen-on
+```
+
+Or specify a custom polling interval:
 
 ```sh
 ./dist/adb-keep-screen-on --interval 10
 ```
+
+If you used the install script and symlinked the tool, simply open a new terminal and run:
+
+```sh
+adb-keep-screen-on
+```
+
+Or with a custom interval:
+
+```sh
+adb-keep-screen-on --interval 10
+```
+
+If you do not pass the --interval argument, the default polling interval of 10 seconds will be used.
 
 `--interval` (optional): polling interval in seconds (default: `10`)
 
