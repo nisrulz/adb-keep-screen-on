@@ -1,15 +1,23 @@
 #!/bin/bash
 
+# Always build a release binary with Go optimization flags
+# Usage: ./build.sh
+
 # Exit immediately if a command exits with a non-zero status
 set -e
 
 # Ensure dist directory exists
 mkdir -p dist
 
-# Build the Go project and output the binary into dist/adb-keep-screen-on
-if ! go build -o dist/adb-keep-screen-on; then
-  echo "Go build failed."
+echo ""
+echo "🚀 Building release binary..."
+echo ""
+
+if ! go build -ldflags "-s -w" -o dist/adb-keep-screen-on; then
+  echo "\n❌ Release build failed."
   exit 1
 fi
 
-echo "Build succeeded. Binary is in dist directory."
+echo "✅ Release build succeeded."
+echo ""
+echo "📦 Binary is in dist directory."
