@@ -16,7 +16,8 @@ This tool fills that gap by monitoring ADB connection status and toggling the sc
 
 ## ✨ Features
 
-- Checks and stores the original stay awake setting before starting, restores it on exit.
+- Supports multiple connected devices simultaneously.
+- Checks and stores the original stay awake setting for each device before starting, restores it on exit.
 - Wakes up the screen when enabling the stay awake debug setting.
 - Monitors ADB connection and toggles settings automatically.
 - Provides clear CLI feedback and graceful exit (restores settings on Ctrl+C).
