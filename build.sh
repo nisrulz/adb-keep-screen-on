@@ -1,24 +1,45 @@
 #!/bin/bash
 
-# Always build a release binary with Go optimization flags
+# Build release binaries for multiple platforms
 # Usage: ./build.sh
 
-# Exit immediately if a command exits with a non-zero status
 set -e
 
 # Ensure dist directory exists
 mkdir -p dist
 
 echo ""
-echo "🚀 Building release binary..."
+echo "🚀 Building release binaries for all major platforms..."
 echo ""
 
-if ! go build -ldflags "-s -w" -o dist/adb-keep-screen-on; then
-  echo "\n❌ Release build failed."
-  exit 1
-fi
+PLATFORMS=(
+  "linux/amd64"
+  "macos/amd64"
+  "windows/amd64"
+  "linux/arm64"
+  "macos/arm64"
+)
 
-echo "✅ Release build succeeded."
-echo ""
-echo "📦 Binary is in dist directory."
+for PLATFORM in "${PLATFORMS[@]}"; do
+  IFS="/" read -r OS ARCH <<< "$PLATFORM"
+  EXT=""
+  GOOS="$OS"
+  if [ "$OS" == "macos" ]; then
+    GOOS="darwin"
+  fi
+  if [ "$OS" == "windows" ]; then
+    EXT=".exe"
+  fi
+  OUT="dist/adb-keep-screen-on-${OS}-${ARCH}${EXT}"
+  echo "🔨 Building for $OS/$ARCH -> $OUT"
+  env GOOS=$GOOS GOARCH=$ARCH go build -ldflags "-s -w" -o "$OUT"
+  if [ $? -ne 0 ]; then
+    echo "❌ Build failed for $OS/$ARCH"
+    exit 1
+  fi
+  echo "✅ Build succeeded for $OS/$ARCH"
+  echo ""
+done
+
+echo "📦 All binaries are in the dist directory."
 echo ""
