@@ -8,7 +8,7 @@ It’s ideal for developers, testers, and presenters who need the screen to stay
 
 ## ❓ Why This Tool Exists
 
-Android’s developer setting **Stay awake while charging** is too broad and doesn’t cover modern workflows like wireless ADB or USB only connections. Developers have been requesting a more precise option **Stay awake while ADB is connected** since **2016**, but the issue remains unresolved:
+Android’s developer setting **Stay awake while charging** is too broad and doesn’t cover developer workflows.  Developers have been requesting a more precise option **Stay awake while ADB is connected** since **2016**, but the issue remains unresolved:
 
 🔗 [Google Issue Tracker #37094654](https://issuetracker.google.com/issues/37094654)
 
@@ -16,7 +16,7 @@ This tool fills that gap by monitoring ADB connection status and toggling the sc
 
 ## ✨ Features
 
-- Supports multiple connected devices simultaneously.
+- Supports multiple connected devices simultaneously (Physical and Emulators both).
 - Checks and stores the original stay awake setting for each device before starting, restores it on exit.
 - Wakes up the screen when enabling the stay awake debug setting.
 - Monitors ADB connection and toggles settings automatically.
@@ -96,6 +96,25 @@ If you do not pass the --interval argument, the default polling interval of 10 s
 ### Demo
 
 https://github.com/user-attachments/assets/75c25d2b-4e7e-4914-abe4-ca476018a207
+
+> When multiple devices are connected, then that is handled too.
+
+```sh
+❯ adb-keep-screen-on
+🔌 Monitoring ADB connection every 10 seconds to keep screen on...
+
+📱 Device connected via ADB: DEMOR1A04321 . Keeping screen awake.
+
+✅ Device is connected. Screen will stay awake.
+
+📱 Device connected via ADB: DEMOFXR312 . Keeping screen awake.
+
+✅ Device is connected. Screen will stay awake.
+
+^C
+🔌 Monitoring stopped. Device settings restored. Exiting...
+
+```
 
 ## 📄 License
 
