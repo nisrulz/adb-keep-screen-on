@@ -46,6 +46,8 @@ brew install --cask android-platform-tools
 
 The binary will be created in the `dist` directory.
 
+> **Tip:** Prebuilt binaries for each platform are available in the `dist` directory. You can use these directly without building if you prefer.
+
 ### 2. (Optional) Install globally
 
 > **Note:** The install.sh script only works for Unix systems such as macOS and Linux.
