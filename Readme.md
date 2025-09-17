@@ -86,6 +86,12 @@ If you do not pass the --interval argument, the default polling interval of 10 s
 
 `--interval` (optional): polling interval in seconds (default: `10`)
 
+### Demo
+
+<video src="./assets/demo.mp4" controls autoplay width="600">
+  Your browser does not support the video tag. You can download the demo <a href="./assets/demo.mp4">here</a>.
+</video>
+
 ## 📄 License
 
 [Apache License Version 2.0 © Nishant Srivastava](/LICENSE)
