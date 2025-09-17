@@ -12,6 +12,15 @@ Android’s developer setting **Stay awake while charging** is too broad and doe
 
 This tool fills that gap by monitoring ADB connection status and toggling the screen-on setting only when needed.
 
+## ✨ Features
+
+- Checks and stores the original stay awake setting before starting, restores it on exit.
+- Wakes up the screen when enabling the stay awake debug setting.
+- Monitors ADB connection and toggles settings automatically.
+- Provides clear CLI feedback and graceful exit (restores settings on Ctrl+C).
+- Works with USB ADB connections only.
+- Lightweight, fast, and easy to use.
+
 ## ⚙️ Prerequisites
 
 - ✅ [Go](https://golang.org/dl/) installed (for building the binary)
