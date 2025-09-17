@@ -94,7 +94,7 @@ If you do not pass the --interval argument, the default polling interval of 10 s
 
 ### Demo
 
-<https://github.com/user-attachments/assets/75c25d2b-4e7e-4914-abe4-ca476018a207>
+https://github.com/user-attachments/assets/75c25d2b-4e7e-4914-abe4-ca476018a207
 
 ## 📄 License
 
