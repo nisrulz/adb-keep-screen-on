@@ -48,6 +48,8 @@ The binary will be created in the `dist` directory.
 
 ### 2. (Optional) Install globally
 
+> **Note:** The install.sh script only works for Unix systems such as macOS and Linux.
+
 To run the tool from anywhere, use the provided install script:
 
 ```sh
