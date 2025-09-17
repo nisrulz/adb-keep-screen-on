@@ -1,5 +1,7 @@
 # 📱 ADB Keep Screen On
 
+![Banner](./assets/banner.jpg)
+
 **ADB Keep Screen On** is a lightweight CLI tool written in Go that prevents your Android device from sleeping when connected via ADB over USB.
 
 It’s ideal for developers, testers, and presenters who need the screen to stay awake during debugging, automation, or live demos without relying on charging state or manually tweaking device settings.
@@ -88,7 +90,7 @@ If you do not pass the --interval argument, the default polling interval of 10 s
 
 ### Demo
 
-https://github.com/user-attachments/assets/75c25d2b-4e7e-4914-abe4-ca476018a207
+<https://github.com/user-attachments/assets/75c25d2b-4e7e-4914-abe4-ca476018a207>
 
 ## 📄 License
 
