@@ -1,13 +1,27 @@
 #!/bin/bash
 
-# Install script for adb-keep-screen-on
-# Symlinks the built binary to ~/bin for global access (no sudo required)
+# install.sh - Symlinks the built binary to ~/bin for global access (no sudo required)
+# NOTE: This script only works for Unix systems such as macOS and Linux.
 
 set -e
 
-BINARY_PATH="$(pwd)/dist/adb-keep-screen-on"
 LINK_DIR="$HOME/bin"
 LINK_PATH="$LINK_DIR/adb-keep-screen-on"
+
+# Detect platform
+UNAME=$(uname -s)
+ARCH=$(uname -m)
+BINARY_PATH=""
+
+if [ "$UNAME" == "Darwin" ] && [ "$ARCH" == "arm64" ]; then
+  BINARY_PATH="$(pwd)/dist/adb-keep-screen-on-macos-arm64"
+elif [ "$UNAME" == "Darwin" ] && [ "$ARCH" == "x86_64" ]; then
+  BINARY_PATH="$(pwd)/dist/adb-keep-screen-on-macos-amd64"
+elif [ "$UNAME" == "Linux" ] && [ "$ARCH" == "x86_64" ]; then
+  BINARY_PATH="$(pwd)/dist/adb-keep-screen-on-linux-amd64"
+elif [ "$UNAME" == "Linux" ] && [ "$ARCH" == "aarch64" ]; then
+  BINARY_PATH="$(pwd)/dist/adb-keep-screen-on-linux-arm64"
+fi
 
 if [ ! -f "$BINARY_PATH" ]; then
   echo ""

@@ -46,7 +46,11 @@ brew install --cask android-platform-tools
 
 The binary will be created in the `dist` directory.
 
+> **Tip:** Prebuilt binaries for each platform are available in the `dist` directory. You can use these directly without building if you prefer.
+
 ### 2. (Optional) Install globally
+
+> **Note:** The install.sh script only works for Unix systems such as macOS and Linux.
 
 To run the tool from anywhere, use the provided install script:
 
@@ -90,7 +94,7 @@ If you do not pass the --interval argument, the default polling interval of 10 s
 
 ### Demo
 
-<https://github.com/user-attachments/assets/75c25d2b-4e7e-4914-abe4-ca476018a207>
+https://github.com/user-attachments/assets/75c25d2b-4e7e-4914-abe4-ca476018a207
 
 ## 📄 License
 
