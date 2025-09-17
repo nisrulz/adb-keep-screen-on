@@ -20,15 +20,6 @@ func WakeScreen(deviceID string) {
 	}
 }
 
-// SetMaxBrightness sets the device's screen brightness to maximum using adb
-func SetMaxBrightness(deviceID string) {
-	cmd := exec.Command("adb", "-s", deviceID, "shell", "settings", "put", "system", "screen_brightness", "255")
-	err := cmd.Run()
-	if err != nil {
-		fmt.Printf("⚠️ Failed to set screen brightness to maximum for device %s: %v\n", deviceID, err)
-	}
-}
-
 // SetStayAwake sets the device's stay awake setting while plugged in
 func SetStayAwake(deviceID string, enable bool) {
 	value := "0"
@@ -43,7 +34,6 @@ func SetStayAwake(deviceID string, enable bool) {
 	// Wake the screen and set brightness if enabling stay awake
 	if enable {
 		WakeScreen(deviceID)
-		SetMaxBrightness(deviceID)
 	}
 }
 
