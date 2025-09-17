@@ -88,9 +88,7 @@ If you do not pass the --interval argument, the default polling interval of 10 s
 
 ### Demo
 
-<video src="./assets/demo.mp4" controls autoplay width="600">
-  Your browser does not support the video tag. You can download the demo <a href="./assets/demo.mp4">here</a>.
-</video>
+https://github.com/user-attachments/assets/75c25d2b-4e7e-4914-abe4-ca476018a207
 
 ## 📄 License
 
