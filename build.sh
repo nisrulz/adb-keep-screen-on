@@ -32,7 +32,7 @@ for PLATFORM in "${PLATFORMS[@]}"; do
   fi
   OUT="dist/adb-keep-screen-on-${OS}-${ARCH}${EXT}"
   echo "🔨 Building for $OS/$ARCH -> $OUT"
-  env GOOS=$GOOS GOARCH=$ARCH go build -ldflags "-s -w" -o "$OUT"
+  env CGO_ENABLED=0 GOOS=$GOOS GOARCH=$ARCH go build -trimpath -ldflags "-s -w" -o "$OUT"
   if [ $? -ne 0 ]; then
     echo "❌ Build failed for $OS/$ARCH"
     exit 1
