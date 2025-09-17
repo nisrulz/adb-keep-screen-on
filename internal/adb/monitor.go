@@ -6,8 +6,8 @@ import (
 )
 
 // IsDeviceConnected checks if an Android device is connected via ADB
-func IsDeviceConnected() bool {
-	out, err := exec.Command("adb", "get-state").Output()
+func IsDeviceConnected(deviceID string) bool {
+	out, err := exec.Command("adb", "-s", deviceID, "get-state").Output()
 	if err != nil {
 		return false
 	}
@@ -28,8 +28,8 @@ func IsAdbAvailable() bool {
 }
 
 // GetStayAwakeSetting retrieves the current value of stay_on_while_plugged_in from the device
-func GetStayAwakeSetting() (string, error) {
-	out, err := exec.Command("adb", "shell", "settings", "get", "global", "stay_on_while_plugged_in").Output()
+func GetStayAwakeSetting(deviceID string) (string, error) {
+	out, err := exec.Command("adb", "-s", deviceID, "shell", "settings", "get", "global", "stay_on_while_plugged_in").Output()
 	if err != nil {
 		return "", err
 	}
