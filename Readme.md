@@ -2,6 +2,12 @@
 
 ![Banner](./assets/banner.jpg)
 
+[![GitHub stars](https://img.shields.io/github/stars/nisrulz/adb-keep-screen-on.svg?style=social&label=Star)](https://github.com/nisrulz/adb-keep-screen-on) [![GitHub forks](https://img.shields.io/github/forks/nisrulz/adb-keep-screen-on.svg?style=social&label=Fork)](https://github.com/nisrulz/adb-keep-screen-on/fork) [![GitHub watchers](https://img.shields.io/github/watchers/nisrulz/adb-keep-screen-on.svg?style=social&label=Watch)](https://github.com/nisrulz/adb-keep-screen-on)
+
+[![Android Weekly - #675](https://img.shields.io/badge/Android_Weekly-%23693-34b5e5?logo=android&logoColor=%23ffffff)](https://androidweekly.net/issues/issue-693#:~:text=Libraries%20%26%20Code-,adb%2Dkeep%2Dscreen%2Don,-A%20small%20CLI)
+
+[![GitHub followers](https://img.shields.io/github/followers/nisrulz.svg?style=social&label=Follow)](https://github.com/nisrulz/adb-keep-screen-on) [![Follow me on Bluesky](https://img.shields.io/badge/Bluesky-0285FF?logo=bluesky&logoColor=fff&label=Follow%20me%20on&color=0285FF)](https://bsky.app/profile/nisrulz.com) [![Share on Bluesky](https://img.shields.io/badge/Bluesky-0285FF?logo=bluesky&logoColor=fff&label=Share%20on&color=0285FF)](https://bsky.app/intent/compose?text=%F0%9F%93%B1%20ADB%20Keep%20Screen%20On%20is%20a%20lightweight%20CLI%20tool%20written%20in%20Go%20that%20prevents%20your%20Android%20device%20from%20sleeping%20when%20connected%20via%20ADB%20over%20USB.%0A%0A%F0%9F%91%A8%F0%9F%8F%BB%E2%80%8D%F0%9F%92%BB%20Built%20by%20%40nisrulz.com%20%0A%0A%E2%9C%85%20Github%3A%20https%3A%2F%2Fgithub.com%2Fnisrulz%2Fadb-keep-screen-on%0A%0A%23AndroidDev%20%23adb%20%23android%23debugging)
+
 **ADB Keep Screen On** is a lightweight CLI tool written in Go that prevents your Android device from sleeping when connected via ADB over USB.
 
 It’s ideal for developers, testers, and presenters who need the screen to stay awake during debugging, automation, or live demos without relying on charging state or manually tweaking device settings.
@@ -95,7 +101,7 @@ If you do not pass the --interval argument, the default polling interval of 10 s
 
 ### Demo
 
-https://github.com/user-attachments/assets/75c25d2b-4e7e-4914-abe4-ca476018a207
+<https://github.com/user-attachments/assets/75c25d2b-4e7e-4914-abe4-ca476018a207>
 
 > When multiple devices are connected, then that is handled too.
 
