@@ -50,6 +50,17 @@ curl -sfL https://github.com/nisrulz/adb-keep-screen-on/releases/latest/download
 
 No Go needed. The script picks the right binary for your OS and puts it in `/usr/local/bin` (Unix) or `~/bin` (Windows Git Bash).
 
+### Manual install from a release
+
+1. Go to the [latest release](https://github.com/nisrulz/adb-keep-screen-on/releases).
+2. Download `install.sh` and run it — it fetches the matching binary for your OS/arch and installs it:
+
+   ```sh
+   sh install.sh
+   ```
+
+   Or grab a prebuilt archive (`*.tar.gz` / `*.zip`) and a `checksums.txt` to verify, then place the binary on your `PATH`.
+
 ### Go install
 
 ```sh
