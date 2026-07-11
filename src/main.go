@@ -206,7 +206,7 @@ func daemonize() int {
 	cmd.Env = append(os.Environ(), envDaemon+"=1")
 	cmd.Stdout = logFile
 	cmd.Stderr = logFile
-	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
+	setProcessGroup(cmd)
 
 	if err := cmd.Start(); err != nil {
 		fmt.Println("❌ Failed to start daemon:", err)
