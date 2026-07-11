@@ -4,124 +4,137 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/nisrulz/adb-keep-screen-on.svg?style=social&label=Star)](https://github.com/nisrulz/adb-keep-screen-on) [![GitHub forks](https://img.shields.io/github/forks/nisrulz/adb-keep-screen-on.svg?style=social&label=Fork)](https://github.com/nisrulz/adb-keep-screen-on/fork) [![GitHub watchers](https://img.shields.io/github/watchers/nisrulz/adb-keep-screen-on.svg?style=social&label=Watch)](https://github.com/nisrulz/adb-keep-screen-on)
 
-[![Android Weekly - #675](https://img.shields.io/badge/Android_Weekly-%23693-34b5e5?logo=android&logoColor=%23ffffff)](https://androidweekly.net/issues/issue-693#:~:text=Libraries%20%26%20Code-,adb%2Dkeep%2Dscreen%2Don,-A%20small%20CLI)
+[![Android Weekly - #693](https://img.shields.io/badge/Android_Weekly-%23693-34b5e5?logo=android&logoColor=%23ffffff)](https://androidweekly.net/issues/issue-693#:~:text=Libraries%20%26%20Code-,adb%2Dkeep%2Dscreen%2Don,-A%20small%20CLI)
 
 [![GitHub followers](https://img.shields.io/github/followers/nisrulz.svg?style=social&label=Follow)](https://github.com/nisrulz/adb-keep-screen-on) [![Follow me on Bluesky](https://img.shields.io/badge/Bluesky-0285FF?logo=bluesky&logoColor=fff&label=Follow%20me%20on&color=0285FF)](https://bsky.app/profile/nisrulz.com) [![Share on Bluesky](https://img.shields.io/badge/Bluesky-0285FF?logo=bluesky&logoColor=fff&label=Share%20on&color=0285FF)](https://bsky.app/intent/compose?text=%F0%9F%93%B1%20ADB%20Keep%20Screen%20On%20is%20a%20lightweight%20CLI%20tool%20written%20in%20Go%20that%20prevents%20your%20Android%20device%20from%20sleeping%20when%20connected%20via%20ADB%20over%20USB.%0A%0A%F0%9F%91%A8%F0%9F%8F%BB%E2%80%8D%F0%9F%92%BB%20Built%20by%20%40nisrulz.com%20%0A%0A%E2%9C%85%20Github%3A%20https%3A%2F%2Fgithub.com%2Fnisrulz%2Fadb-keep-screen-on%0A%0A%23AndroidDev%20%23adb%20%23android%23debugging)
 
-**ADB Keep Screen On** is a lightweight CLI tool written in Go that prevents your Android device from sleeping when connected via ADB over USB.
+**ADB Keep Screen On** is a small CLI tool written in Go. It keeps your Android device's screen awake while the device is connected over ADB, instead of tying that behavior to the charging state.
 
-It’s ideal for developers, testers, and presenters who need the screen to stay awake during debugging, automation, or live demos without relying on charging state or manually tweaking device settings.
+It helps during debugging, automation, and demos, where you want the screen on without touching the device or changing developer settings by hand.
 
-## ❓ Why This Tool Exists
+## Why this tool exists
 
-Android’s developer setting **Stay awake while charging** is too broad and doesn’t cover developer workflows.  Developers have been requesting a more precise option **Stay awake while ADB is connected** since **2016**, but the issue remains unresolved:
+Android has a "Stay awake while charging" developer option, but that is broader than most workflows need. A more precise "Stay awake while ADB is connected" option has been requested since 2016 and is still unresolved:
 
-🔗 [Google Issue Tracker #37094654](https://issuetracker.google.com/issues/37094654)
+[Google Issue Tracker #37094654](https://issuetracker.google.com/issues/37094654)
 
-This tool fills that gap by monitoring ADB connection status and toggling the screen-on setting only when needed.
+This tool watches the ADB connection and toggles the setting only while a device is connected.
 
-## ✨ Features
+## Features
 
-- Supports multiple connected devices simultaneously (Physical and Emulators both).
-- Checks and stores the original stay awake setting for each device before starting, restores it on exit.
-- Wakes up the screen when enabling the stay awake debug setting.
-- Monitors ADB connection and toggles settings automatically.
-- Provides clear CLI feedback and graceful exit (restores settings on Ctrl+C).
-- Works with USB ADB connections only.
-- Lightweight, fast, and easy to use.
+- Handles multiple devices at once, physical and emulators.
+- Stores each device's original setting and restores it on exit.
+- Wakes the screen when it enables the stay-awake setting.
+- Polls `adb devices` and reacts to connects and disconnects automatically.
+- Configurable through a JSON file: poll interval, wake-on-connect, restore-on-disconnect, and a device allowlist.
+- Subcommands for `stop`, `status`, `version`, and `help`.
 
-## ⚙️ Prerequisites
+## Prerequisites
 
-- ✅ [Go](https://golang.org/dl/) installed (for building the binary)
-- ✅ [ADB (Android Debug Bridge)](https://developer.android.com/tools/adb) installed and accessible in your terminal
+- [ADB (Android Debug Bridge)](https://developer.android.com/tools/adb) installed and on your PATH.
+- [Go](https://golang.org/dl/) is only needed if you build from source.
 
-### 🧪 Install ADB via Homebrew (macOS)
-
-If ADB is not installed, you can install it using Homebrew:
+### Install ADB with Homebrew (macOS)
 
 ```sh
 brew install --cask android-platform-tools
 ```
 
-## 🚀 Usage
+## Quick install
 
-### 1. Build the binary
-
-```sh
-./build.sh
-```
-
-The binary will be created in the `dist` directory.
-
-> **Tip:** Prebuilt binaries for each platform are available in the `dist` directory. You can use these directly without building if you prefer.
-
-### 2. (Optional) Install globally
-
-> **Note:** The install.sh script only works for Unix systems such as macOS and Linux.
-
-To run the tool from anywhere, use the provided install script:
+### One-liner (macOS / Linux / Windows Git Bash)
 
 ```sh
-./install.sh
+curl -sfL https://github.com/nisrulz/adb-keep-screen-on/releases/latest/download/install.sh | sh
 ```
 
-This will symlink the binary to `~/bin/adb-keep-screen-on`. If `~/bin` is not in your PATH, follow the instructions printed by the script to add it.
+No Go needed. The script picks the right binary for your OS and puts it in `/usr/local/bin` (Unix) or `~/bin` (Windows Git Bash).
 
-### 3. Run the tool
-
-Ensure your Android device is connected and USB debugging is enabled.
-
-To run the built binary directly:
+### Go install
 
 ```sh
-./dist/adb-keep-screen-on
+go install github.com/nisrulz/adb-keep-screen-on@latest
 ```
 
-Or specify a custom polling interval:
+Requires [Go](https://go.dev/dl/) 1.25+.
+
+### Build from source
 
 ```sh
-./dist/adb-keep-screen-on --interval 10
+git clone https://github.com/nisrulz/adb-keep-screen-on.git
+cd adb-keep-screen-on
+make build
 ```
 
-If you used the install script and symlinked the tool, simply open a new terminal and run:
+## Usage
 
 ```sh
-adb-keep-screen-on
+adb-keep-screen-on              # Start daemon (runs in background)
+adb-keep-screen-on stop         # Stop the daemon
+adb-keep-screen-on status       # Show whether the daemon is running
+adb-keep-screen-on --foreground # Run in foreground (debug)
+adb-keep-screen-on version      # Print the version
+adb-keep-screen-on help         # Show usage help
+
+# Or using make:
+make start
+make stop
+make status
+make run                        # Foreground (debug)
 ```
 
-Or with a custom interval:
+The tool polls `adb devices` to detect plug/unplug events. The polling
+interval is configurable (see below). Already-connected devices are detected
+immediately on startup.
 
-```sh
-adb-keep-screen-on --interval 10
+Daemon logs to `~/.adb-keep-screen-on/debug.log` and saves PID to
+`~/.adb-keep-screen-on/PID`.
+
+### Configuration
+
+On first run, a config file is created at `~/.adb-keep-screen-on/config.json`:
+
+```json
+{
+  "poll_interval_seconds": 1,
+  "wake_on_connect": true,
+  "restore_on_disconnect": true,
+  "devices": []
+}
 ```
 
-If you do not pass the --interval argument, the default polling interval of 10 seconds will be used.
+| Key | Default | Description |
+| --- | --- | --- |
+| `poll_interval_seconds` | `1` | How often `adb devices` is polled (minimum 1). |
+| `wake_on_connect` | `true` | Wake the screen when a device connects. |
+| `restore_on_disconnect` | `true` | Restore the original setting when a device disconnects or the tool exits. |
+| `devices` | `[]` | Optional allowlist of device IDs to manage. Empty means all devices. |
 
-`--interval` (optional): polling interval in seconds (default: `10`)
-
-### Demo
-
-<https://github.com/user-attachments/assets/75c25d2b-4e7e-4914-abe4-ca476018a207>
-
-> When multiple devices are connected, then that is handled too.
+### Example output
 
 ```sh
 ❯ adb-keep-screen-on
-🔌 Monitoring ADB connection every 10 seconds to keep screen on...
+✅ Started (PID 41234)
+   Logs:   /Users/you/.adb-keep-screen-on/debug.log
+   Config: /Users/you/.adb-keep-screen-on/config.json
+   Stop with: adb-keep-screen-on stop
 
-📱 Device connected via ADB: DEMOR1A04321 . Keeping screen awake.
+❯ adb-keep-screen-on status
+🟢 Running (PID 41234)
+   Logs:   /Users/you/.adb-keep-screen-on/debug.log
+   Config: /Users/you/.adb-keep-screen-on/config.json
 
-✅ Device is connected. Screen will stay awake.
+❯ adb-keep-screen-on --foreground
+🔌 Monitoring ADB connection to keep the screen awake
+   config:   /Users/you/.adb-keep-screen-on/config.json
+   interval: 1s   wake-on-connect: true   restore: true
 
-📱 Device connected via ADB: DEMOFXR312 . Keeping screen awake.
-
-✅ Device is connected. Screen will stay awake.
-
+✅ Connected: DEMOR1A04321: screen will stay awake
+🔌 Disconnected: DEMOR1A04321
 ^C
 🔌 Monitoring stopped. Device settings restored. Exiting...
-
 ```
 
-## 📄 License
+## License
 
 [Apache License Version 2.0 © Nishant Srivastava](/LICENSE)
