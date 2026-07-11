@@ -1,67 +1,61 @@
-#!/bin/bash
+#!/bin/sh
+set -eu
 
-# install.sh - Symlinks the built binary to ~/bin for global access (no sudo required)
-# NOTE: This script only works for Unix systems such as macOS and Linux.
+REPO="nisrulz/adb-keep-screen-on"
+BIN="adb-keep-screen-on"
 
-set -e
+arch=$(uname -m)
+os_raw=$(uname -s)
+os=$(echo "$os_raw" | tr '[:upper:]' '[:lower:]')
 
-LINK_DIR="$HOME/bin"
-LINK_PATH="$LINK_DIR/adb-keep-screen-on"
+case "$arch" in
+  x86_64 | amd64) arch="amd64" ;;
+  aarch64 | arm64) arch="arm64" ;;
+  *)
+    echo "Unsupported architecture: $arch"
+    exit 1
+    ;;
+esac
 
-# Detect platform
-UNAME=$(uname -s)
-ARCH=$(uname -m)
-BINARY_PATH=""
+case "$os" in
+  darwin | linux) ;;
+  mingw* | msys* | cygwin*) os="windows" ;;
+  *)
+    echo "Unsupported OS: $os_raw"
+    exit 1
+    ;;
+esac
 
-if [ "$UNAME" == "Darwin" ] && [ "$ARCH" == "arm64" ]; then
-  BINARY_PATH="$(pwd)/dist/adb-keep-screen-on-macos-arm64"
-elif [ "$UNAME" == "Darwin" ] && [ "$ARCH" == "x86_64" ]; then
-  BINARY_PATH="$(pwd)/dist/adb-keep-screen-on-macos-amd64"
-elif [ "$UNAME" == "Linux" ] && [ "$ARCH" == "x86_64" ]; then
-  BINARY_PATH="$(pwd)/dist/adb-keep-screen-on-linux-amd64"
-elif [ "$UNAME" == "Linux" ] && [ "$ARCH" == "aarch64" ]; then
-  BINARY_PATH="$(pwd)/dist/adb-keep-screen-on-linux-arm64"
+tag=$(curl -sfL "https://api.github.com/repos/$REPO/releases/latest" | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p')
+[ -z "$tag" ] && { echo "Could not fetch latest release"; exit 1; }
+
+if [ "$os" = "windows" ]; then
+  archive="${BIN}_${os}_${arch}.zip"
+  url="https://github.com/$REPO/releases/download/$tag/$archive"
+  echo "Downloading $BIN $tag ($os/$arch)..."
+  curl -sfL "$url" -o "${BIN}.zip"
+  unzip -qo "${BIN}.zip"
+  rm -f "${BIN}.zip"
+  bin_name="${BIN}.exe"
+  dst="$HOME/bin/$BIN.exe"
+  mkdir -p "$HOME/bin"
+else
+  archive="${BIN}_${os}_${arch}.tar.gz"
+  url="https://github.com/$REPO/releases/download/$tag/$archive"
+  echo "Downloading $BIN $tag ($os/$arch)..."
+  curl -sfL "$url" | tar xz
+  bin_name="$BIN"
+  dst="/usr/local/bin/$BIN"
 fi
 
-if [ ! -f "$BINARY_PATH" ]; then
-  echo ""
-  echo "⚙️ Binary not found! Running ./build.sh..."
-  ./build.sh
-  echo ""
+if [ -w "$(dirname "$dst")" ]; then
+  mv "$bin_name" "$dst"
+else
+  echo "  Installing to $dst (requires sudo)..."
+  sudo mv "$bin_name" "$dst"
 fi
-
-# Create ~/bin if it doesn't exist
-if [ ! -d "$LINK_DIR" ]; then
-  echo "📁 Creating $LINK_DIR directory..."
-  mkdir -p "$LINK_DIR"
-  echo ""
+echo "  ✓ Installed $BIN to $dst"
+if [ "$os" = "windows" ]; then
+  echo "  Ensure $HOME/bin is in your PATH to run '$BIN' from anywhere."
 fi
-
-if [ -L "$LINK_PATH" ] || [ -f "$LINK_PATH" ]; then
-  echo "🔄 Removing existing symlink or binary"
-  rm -f "$LINK_PATH"
-  echo ""
-fi
-
-echo "🔗 Creating symlink"
-ln -s "$BINARY_PATH" "$LINK_PATH"
-echo ""
-
-echo "✅ Installed adb-keep-screen-on."
-echo ""
-echo "You can now run 'adb-keep-screen-on' from anywhere"
-echo "if $LINK_DIR is in your PATH."
-echo ""
-
-if ! echo "$PATH" | grep -q "$LINK_DIR"; then
-  echo "=================================================================="
-  echo ""
-  echo "⚠️ $LINK_DIR is not in your PATH."
-  echo ""
-  echo "Add the following line to your shell profile (e.g., ~/.bashrc or ~/.zshrc):"
-  echo ""
-  echo "    export PATH=\"$LINK_DIR:\$PATH\""
-  echo ""
-  echo "After editing your profile, run:"
-  echo "    source ~/.zshrc   # or source ~/.bashrc, depending on your shell"
-fi
+echo "  ➜ Run '$BIN' to start"

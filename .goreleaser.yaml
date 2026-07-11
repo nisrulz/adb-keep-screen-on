@@ -1,0 +1,35 @@
+version: 2
+
+project_name: adb-keep-screen-on
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - main: ./src/
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - LICENSE
+      - README.md
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  abbrev: 7
+
+release:
+  extra_files:
+    - glob: ./install.sh
